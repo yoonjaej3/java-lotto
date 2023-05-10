@@ -10,7 +10,7 @@ import java.util.*;
 public class ResultView {
 
     private ResultView() {
-        
+
     }
 
     public static void printLottoInfo(List<Lotto> Input) {

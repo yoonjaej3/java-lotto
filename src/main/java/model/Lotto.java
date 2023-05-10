@@ -17,4 +17,14 @@ public class Lotto {
         return this.lotto;
     }
 
+    public int matchCount(List<Integer> winLotto) {
+        List<Integer> copyList = new ArrayList<>(lotto);
+
+        int equalNum = (int) copyList.stream()
+                .filter(winLotto::contains)
+                .count();
+
+        return equalNum;
+    }
+
 }

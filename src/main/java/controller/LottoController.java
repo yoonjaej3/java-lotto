@@ -10,11 +10,11 @@ import java.util.List;
 
 public class LottoController {
 
-    public static void LottoAutoStart() {
+    public static void lottoAutoStart() {
         int buyAmount = InputView.inputBuyAmount();
 
         LottoStore lottoStore = new LottoStore();
-        List<Lotto> lottos = lottoStore.Buy(buyAmount);
+        List<Lotto> lottos = lottoStore.buy(buyAmount);
         ResultView.printLottoInfo(lottos);
 
         Lotto winNum = new Lotto(InputView.inputWinnerLottoNum());
