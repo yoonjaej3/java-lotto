@@ -11,7 +11,8 @@ public class LotteryStatics {
     public LotteryStatics(int buyAmount, List<Lotto> lottos, List<Integer> winNum) {
         for (Lotto lotto : lottos) {
             int countOfMatch = lotto.matchCount(winNum);
-            this.lotteryStatics.merge(Rank.valueOf(countOfMatch), 1, Integer::sum);
+            boolean matchBonus = lotto.matchBonus();
+            this.lotteryStatics.merge(Rank.valueOf(countOfMatch, matchBonus), 1, Integer::sum);
         }
 
         this.gross = Math.round((double) getTotalPrice() / buyAmount * 100) / 100.0;

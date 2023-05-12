@@ -45,8 +45,24 @@ public class ResultView {
         for (Rank rank : ranks) {
             int count = Optional.ofNullable(winCount.get(rank)).orElse(0);
             if (rank != rank.MISS)
-                System.out.println(getMessage(rank, count));
+                System.out.println(printLottoResult(rank, count));
+
         }
+    }
+
+    private static String printLottoResult(Rank rank, int count) {
+
+        if (rank == rank.SECOND)
+            return getSecondMessage(rank, count);
+
+        return getMessage(rank, count);
+
+    }
+
+    private static String getSecondMessage(Rank rank, int count) {
+
+        return rank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + rank.getWinningMoney() + "원) - " + count + "개";
+
     }
 
     private static String getMessage(Rank rank, int count) {
