@@ -17,23 +17,25 @@ class LotteryStaticsTest {
     void countLotto() {
         //given
         int buyCount = 4000;
+        int bonus = 7;
         List<Lotto> lottos = new ArrayList<>();
         lottos.add(new Lotto(Arrays.asList(1, 8, 23, 41, 42, 43))); //3개일치
         lottos.add(new Lotto(Arrays.asList(3, 5, 11, 16, 32, 38))); //1개일치
         lottos.add(new Lotto(Arrays.asList(7, 11, 16, 35, 36, 44))); //1개일치
-        lottos.add(new Lotto(Arrays.asList(1, 8, 11, 31, 41, 42))); //5개일치
+        lottos.add(new Lotto(Arrays.asList(1, 8, 11, 31, 41, 7))); //5개일치, 보너스볼 일치
 
-        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44));
+        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44), bonus);
 
         //when
         LotteryStatics lotteryStatics = new LotteryStatics(buyCount, lottos, winNum.getLotto());
 
         //then
-        assertThat(lotteryStatics.getLotteryStatics().get(Rank.FOURTH)).isEqualTo(1);
-        assertThat(lotteryStatics.getLotteryStatics().get(Rank.THRID)).isNull();
+        assertThat(lotteryStatics.getLotteryStatics().get(Rank.MISS)).isEqualTo(2);
+        assertThat(lotteryStatics.getLotteryStatics().get(Rank.FIFTH)).isEqualTo(1);
+        assertThat(lotteryStatics.getLotteryStatics().get(Rank.FOURTH)).isNull();
+        assertThat(lotteryStatics.getLotteryStatics().get(Rank.THIRD)).isNull();
         assertThat(lotteryStatics.getLotteryStatics().get(Rank.SECOND)).isEqualTo(1);
         assertThat(lotteryStatics.getLotteryStatics().get(Rank.FIRST)).isNull();
-
     }
 
     @Test
@@ -41,20 +43,21 @@ class LotteryStaticsTest {
     void sumLotto() {
         //given
         int buyCount = 4000;
+        int bonus = 7;
         List<Lotto> lottos = new ArrayList<>();
         lottos.add(new Lotto(Arrays.asList(1, 8, 23, 41, 42, 43))); //3개일치
         lottos.add(new Lotto(Arrays.asList(3, 5, 11, 16, 32, 38))); //1개일치
         lottos.add(new Lotto(Arrays.asList(7, 11, 16, 35, 36, 44))); //1개일치
-        lottos.add(new Lotto(Arrays.asList(1, 8, 11, 31, 41, 42))); //5개일치
+        lottos.add(new Lotto(Arrays.asList(1, 8, 11, 31, 41, 7))); //5개일치, 보너스볼 일치
 
-        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44));
+        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44), bonus);
 
         //when
         LotteryStatics lotteryStatics = new LotteryStatics(buyCount, lottos, winNum.getLotto());
         int priceSum = lotteryStatics.getTotalPrice();
 
         //then
-        assertEquals(5000 + 1500000, priceSum);
+        assertEquals(5_000 + 30_000_000, priceSum);
 
     }
 
@@ -64,19 +67,21 @@ class LotteryStaticsTest {
     void grossTest() {
         //given
         int buyCount = 4000;
+        int bonus = 7;
         List<Lotto> lottos = new ArrayList<>();
         lottos.add(new Lotto(Arrays.asList(1, 8, 23, 41, 42, 43))); //3개일치
         lottos.add(new Lotto(Arrays.asList(3, 5, 11, 16, 32, 38))); //1개일치
         lottos.add(new Lotto(Arrays.asList(7, 11, 16, 35, 36, 44))); //1개일치
-        lottos.add(new Lotto(Arrays.asList(1, 2, 3, 31, 41, 42))); //3개일치
+        lottos.add(new Lotto(Arrays.asList(1, 8, 11, 31, 41, 7))); //5개일치, 보너스볼 일치
 
-        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44));
+        Lotto winNum = new Lotto(Arrays.asList(1, 8, 11, 31, 41, 44), bonus);
 
         //when
         LotteryStatics lotteryStatics = new LotteryStatics(buyCount, lottos, winNum.getLotto());
 
         //then
-        double expected = 2.5;
+        double expected = (double) (30_000_000 + 5_000) / buyCount;
+
 
         assertEquals(expected, lotteryStatics.getGross());
     }

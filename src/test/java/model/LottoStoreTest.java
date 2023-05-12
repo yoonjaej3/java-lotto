@@ -16,7 +16,7 @@ public class LottoStoreTest {
 
         // when
         LottoStore lottoStore = new LottoStore();
-        List<Lotto> lottoList = lottoStore.Buy(buyAmount);
+        List<Lotto> lottoList = lottoStore.buy(buyAmount);
 
         //then
         int expected = 14;
